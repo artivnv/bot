@@ -48,7 +48,7 @@ def user_planet(bot, update):
     elif user_text == 'Jupiter':
         p = ephem.Jupiter(datetime.date.today())
     else:
-        return 0
+        p = 0
     try:
         answer = ephem.constellation(p)
     except Exception:
@@ -61,7 +61,9 @@ def user_planet(bot, update):
     update.message.reply_text(f'На текущую дату, небесное тело находится в созвездии {planet_names[answer[1]]}.')
 
 def main():
-    mybot = Updater('1054374108:AAGvvQwpLz2d_lf6TjsGrwm-ed-2EF1HMFc',request_kwargs=PROXY)
+    with open('token.txt') as f:
+        TOKEN = f.read().strip()
+    mybot = Updater(TOKEN, request_kwargs=PROXY)
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
